@@ -45,3 +45,28 @@ while (True):
                 count += 1
                 cv2.imwrite("faces/"+str(count)+".jpg",face)      
     print("done")
+
+import glob 
+import cv2
+import sys
+while 1 :
+    filename = input("Enter the file name in which images are present =")
+    for img in glob.glob(filename+'/*.*'):
+        #try :
+            var_img = cv2.imread(img)
+            cv2.imshow(str(img) , var_img)
+
+    def detect_face(img):
+
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        face_cascade = cv2.CascadeClassifier('opencv-files/lbpcascade_frontalface.xml')
+        faces = face_cascade.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=5);
+
+        if (len(faces) == 0):
+            return None, None
+
+        (x, y, w, h) = faces[0]
+        return gray[y:y+w, x:x+h], faces[0]
+    cv2.imshow(str(img) , img)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
